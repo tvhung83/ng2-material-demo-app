@@ -1,10 +1,18 @@
 import { Component } from '@angular/core';
 
 @Component({
+		moduleId: module.id,
     selector: 'app1',
+  	styleUrls: ['app.component.css'],
     template: `
-      <h1>Hello from App1</h1>
-      <book-list></book-list>
+				<md-toolbar color="primary">
+					[App 1] Book list
+					<span class="app-toolbar-filler"></span>
+				</md-toolbar>
+
+				<div class="app-content">
+					<book-list></book-list>
+				</div>
     `
 })
 export class AppComponent { }

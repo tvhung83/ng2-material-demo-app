@@ -2,30 +2,26 @@
  * Created by hungnguyen on 9/9/16.
  */
 
-import { Component } from '@angular/core';
-import { OVERLAY_PROVIDERS, MdUniqueSelectionDispatcher } from '@angular2-material/core';
-import { MdIcon, MdIconRegistry } from '@angular2-material/icon';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+
+import { Book } from '../models/book';
+import { BookService } from '../services/book.service';
 
 @Component({
   moduleId: module.id,
   selector: 'book-list',
-  providers: [ OVERLAY_PROVIDERS, MdUniqueSelectionDispatcher, MdIcon, MdIconRegistry ],
-  templateUrl: 'list.component.html',
-  styleUrls: ['list.component.css']
+  providers: [ BookService ],
+  templateUrl: 'list.component.html'
 })
-export class ListComponent {
-  foods: any[] = [
-    {name: 'Pizza', rating: 'Excellent'},
-    {name: 'Burritos', rating: 'Great'},
-    {name: 'French fries', rating: 'Pretty good'},
-  ];
+export class ListComponent implements OnInit {
+  books: Observable<Book[]>;
+  errorMessage: string = '';
+  isLoading: boolean = true;
 
-  progress: number = 0;
+  constructor(private _bookService : BookService) { }
 
-  constructor() {
-    // Update the value for the progress-bar on an interval.
-    setInterval(() => {
-      this.progress = (this.progress + Math.floor(Math.random() * 4) + 1) % 100;
-    }, 200);
+  ngOnInit() {
+    this.books = this._bookService.getAll();
   }
 }
