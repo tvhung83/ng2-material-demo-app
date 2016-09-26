@@ -1,0 +1,19 @@
+<section *ngIf="isLoading && !errorMessage">
+  Loading our hyperdrives!!! Retrieving data...
+</section>
+<h2>Books</h2>
+<div *ngIf="book">
+  <h3>{{book.title}}</h3>
+  <div>
+    <label>Id: </label>{{book.id}}</div>
+  <div>
+    <label>Title: </label>
+    <input [(ngModel)]="book.title" placeholder="title" />
+  </div>
+  <p>
+    <button md-button routerLink="/books">Back</button>
+  </p>
+</div>
+<section *ngIf="errorMessage">
+  {{errorMessage}}
+</section>

@@ -3,7 +3,7 @@
  */
 
 /* tslint:disable:no-unused-variable */
-import { ListComponent } from './list.component';
+import { BooksListComponent } from './books-list.component';
 
 import { TestBed } from '@angular/core/testing';
 
@@ -20,16 +20,16 @@ describe('Smoke test', () => {
 
 describe('ListComponent with TCB', function () {
   beforeEach(() => {
-    TestBed.configureTestingModule({declarations: [ListComponent]});
+    TestBed.configureTestingModule({declarations: [BooksListComponent]});
   });
 
   it('should instantiate component', () => {
-    let fixture = TestBed.createComponent(ListComponent);
-    expect(fixture.componentInstance instanceof ListComponent).toBe(true, 'should create ListComponent');
+    let fixture = TestBed.createComponent(BooksListComponent);
+    expect(fixture.componentInstance instanceof BooksListComponent).toBe(true, 'should create ListComponent');
   });
 
   it('should have expected <ul> text', () => {
-    let fixture = TestBed.createComponent(ListComponent);
+    let fixture = TestBed.createComponent(BooksListComponent);
     fixture.detectChanges();
 
     let ul = fixture.debugElement.query(el => el.name === 'ul').nativeElement;  // it works

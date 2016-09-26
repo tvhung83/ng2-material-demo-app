@@ -10,11 +10,11 @@ import { BookService } from '../services/book.service';
 
 @Component({
   moduleId: module.id,
-  selector: 'book-list',
+  selector: 'books-list',
   providers: [ BookService ],
-  templateUrl: 'list.component.html'
+  templateUrl: 'books-list.component.html'
 })
-export class ListComponent implements OnInit {
+export class BooksListComponent implements OnInit {
   books: Observable<Book[]>;
   errorMessage: string = '';
   isLoading: boolean = true;

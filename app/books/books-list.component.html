@@ -1,0 +1,13 @@
+<!--<section *ngIf="isLoading && !errorMessage">
+      Loading our hyperdrives!!! Retrieving data...
+    </section>-->
+<md-card>
+  <md-list>
+    <md-list-item *ngFor="let book of books | async">
+      <button md-button [routerLink]="['/books', book.id]">{{book.title}}</button>
+    </md-list-item>
+  </md-list>
+</md-card>
+<!--<section *ngIf="errorMessage">
+      {{errorMessage}}
+    </section>-->

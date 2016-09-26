@@ -3,9 +3,8 @@
  **********************************************************************************************/
 
 const components = [
-	'core',
+  'all',
   'button',
-  'button-toggle',
   'card',
   'checkbox',
   'dialog',
@@ -20,14 +19,19 @@ const components = [
   'sidenav',
   'slider',
   'slide-toggle',
+  'button-toggle',
   'tabs',
   'toolbar',
-  'tooltip',
+  'tooltip'
 ];
 
 
 /** User packages configuration. */
 const packages: any = {
+  '@angular2-material/core': {
+    format: 'cjs',
+    main: 'core.umd.js'
+  },
 	app: { main: './main.js' },
   // Set the default extension for the root package, because otherwise the demo-app can't
   // be built within the production mode. Due to missing file extensions.
@@ -35,35 +39,42 @@ const packages: any = {
     defaultExtension: 'js'
   }
 };
+
+// map @angular2-material packages
 components.forEach(name => {
   packages[`@angular2-material/${name}`] = {
+    format: 'cjs',
     main: `${name}.umd.js`
   };
 });
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
-const angularPackages = {
-  // Angular specific barrels.
-  '@angular/core': { main: 'bundles/core.umd.js'},
-  '@angular/common': { main: 'bundles/common.umd.js'},
-  '@angular/compiler': { main: 'bundles/compiler.umd.js'},
-  '@angular/http': { main: 'bundles/http.umd.js'},
-  '@angular/forms': { main: 'bundles/forms.umd.js'},
-  '@angular/router': { main: 'bundles/router.umd.js'},
-  '@angular/platform-browser': { main: 'bundles/platform-browser.umd.js'},
-  '@angular/platform-browser-dynamic': { main: 'bundles/platform-browser-dynamic.umd.js'}
-};
+const coreComponents = [
+  'core',
+  'common',
+  'compiler',
+  'http',
+  'forms',
+  'router',
+  'platform-browser',
+  'platform-browser-dynamic'
+];
+// map @angular packages
+const _systemConfig: any = {};
+coreComponents.forEach(name => {
+  _systemConfig[`@angular/${name}`] = { main: `bundles/${name}.umd.js` };
+})
 
 const barrels: string[] = [
   // Thirdparty barrels.
   'rxjs',
-	'angular2-in-memory-web-api'
+	'angular2-in-memory-web-api',
+  ...components
 ];
 
-const _systemConfig: any = angularPackages;
 barrels.forEach((barrelName: string) => {
-  _systemConfig[barrelName] = { main: 'index.js' };
+  _systemConfig[barrelName] = { main: 'index' };
 });
 
 /** Type declaration for ambient System. */

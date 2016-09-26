@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Request, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/throw';
 
 import { Book } from '../models/book';
 
@@ -18,12 +19,13 @@ export class BookService {
 	};
 
 	get(id: number): Observable<Book> {
-    let person$ = this._http
-      .get(`${this.baseUrl}/books/${id}`, {headers: this.getHeaders()})
-      .map(mapBook)
-      .catch(handleError);
-      return person$;
-  }
+		let book$ = this._http
+			.get(`${this.baseUrl}/books/${id}`, { headers: this.getHeaders() })
+			.map(mapBook)
+			.do(data => console.log('server data:', data))  // debug
+			.catch(handleError);
+		return book$;
+	}
 
 	private getHeaders() {
 		let headers = new Headers();
@@ -41,25 +43,24 @@ function toBook(r: any) {
 		id: r.id,
 		title: r.title,
 		author: r.author,
-		description: r.description,
-		height: r.height,
+		description: r.description
 	});
-	console.log('Parsed book:', book);
 	return book;
 }
 
-function mapBook(response:Response): Book {
-  // toBook looks just like in the previous example
-  return toBook(response.json());
+function mapBook(response: Response): Book {
+	// toBook looks just like in the previous example
+	return toBook(response.json());
 }
 
 // this could also be a private method of the component class
-function handleError (error: any) {
-  // log error
-  // could be something more sofisticated
-  let errorMsg = error.message || `Yikes! There was was a problem with our hyperdrive device and we couldn't retrieve your data!`
-  console.error(errorMsg);
-
-  // throw an application level error
-  return Observable.throw(errorMsg);
+function handleError(err: any) {
+	console.error('sever error:', err);  // debug
+	if (err instanceof Response) {
+		// return Observable.throw(err.json().error || 'backend server error');
+		// if you're using lite-server, use the following line
+		// instead of the line above:
+		return Observable.throw(err.text() || 'backend server error');
+	}
+	return Observable.throw(err || 'backend server error');
 }
